@@ -1,0 +1,4 @@
+github.com/go-sql-driver/mysql v1.6.0 h1:BCTh4TKNUYmOmMUcQ3IipzF5prigylS7XXjEkfCHuOE=
+github.com/go-sql-driver/mysql v1.6.0/go.mod h1:DCzpHaOWr8IXmIStZouvnhqoel9Qv2LBy8hT2VhHyBg=
+github.com/mikkelstb/simplelog v0.0.0-20210504125516-dbf561d20d23 h1:/FLQ8KCFENOHhYmWWeiS9KXa7Uz24LG3MHum6gRNhLc=
+github.com/mikkelstb/simplelog v0.0.0-20210504125516-dbf561d20d23/go.mod h1:1C1LM6BAS3o+s75NrNftRtkY3ZCfBhNrpv/aEMtpAlg=
