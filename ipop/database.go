@@ -85,7 +85,7 @@ func (this *Database) GetNext() *irmodels.Article {
 		return nil
 	}
 	art := this.cached_articles[0]
-	this.cached_articles = this.cached_articles[1:len(this.cached_articles)-1]
+	this.cached_articles = this.cached_articles[1:]
 	return &art
 }
 
