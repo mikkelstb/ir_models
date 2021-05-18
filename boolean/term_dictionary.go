@@ -2,12 +2,17 @@ package boolean
 
 import (
 	"fmt"
+	"regexp"
 	"sort"
 	"strings"
+
+	irmodels "github.com/mikkelstb/ir_models"
 )
 
 type TermDictionary struct {
 	Terms []Term
+	punctuations string
+	newline_regex *regexp.Regexp
 }
 
 type Term struct {
@@ -24,18 +29,24 @@ func (this *TermDictionary) say() {
 	fmt.Println(this.Terms)
 }
 
-func (this *TermDictionary) AddDocument(document string, docID int) {
+func (this *TermDictionary) Init() {
+	this.punctuations = "/()\"~.,;:!?-–*#%'»«"
+	this.newline_regex = regexp.MustCompile(`\r?\n`)
+}
 
-	const puctuations = "~.,;:!?-–*#%'»«"
+func (this *TermDictionary) AddDocument(document irmodels.Article) {
+
 	types := make(map[string]int)
 
 	//Make a slice with all words
-	tokens := strings.Split(document, " ")
+	//document.Text = strings.
+	document.Text = this.newline_regex.ReplaceAllString(document.Text, "")
+	tokens := strings.Split(document.Text, " ")
 
 	for _, token := range tokens {
 
 		//Remove all punctuations, and convert to lower case
-		token = strings.Trim(token, puctuations)
+		token = strings.Trim(token, this.punctuations)
 		token = strings.ToLower(token)
 
 		if len([]rune(token)) > 2 {
@@ -47,12 +58,12 @@ func (this *TermDictionary) AddDocument(document string, docID int) {
 	for wtype := range types {
 		found := this.isPresent(wtype)
 		if found > -1 {
-			this.updateTerm(wtype, found, docID)
+			this.updateTerm(wtype, found, document.Doc_id)
 		} else {
-			newTerms = append(newTerms, Term{ID: wtype, Document_frequency: 1, Postings_list: []int{docID}})
+			newTerms = append(newTerms, Term{ID: wtype, Document_frequency: 1, Postings_list: []int{document.Doc_id}})
 		}
 	}
-	this.addTerms(newTerms, docID)
+	this.addTerms(newTerms, document.Doc_id)
 	this.Sort()
 }
 
